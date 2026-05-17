@@ -5,6 +5,7 @@ from django.views.generic import  (View,TemplateView,
                                   CreateView,UpdateView,
                                   DeleteView)
 from django.utils.decorators import method_decorator
+from .models import ClassAssignment, SubmitAssignment
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
@@ -365,16 +366,36 @@ def upload_assignment(request):
 @login_required
 def class_assignment(request):
     student = request.user.Student
-    assignment = SubmitAssignment.objects.filter(student=student)
-    assignment_list = [x.submitted_assignment for x in assignment]
-    return render(request,'classroom/class_assignment.html',{'student':student,'assignment_list':assignment_list})
 
+    assignments = ClassAssignment.objects.filter(student=student)
+
+    submitted_ids = SubmitAssignment.objects.filter(
+        student=student
+    ).values_list('submitted_assignment_id', flat=True)
+
+    return render(request, 'classroom/class_assignment.html', {
+        'student': student,
+        'assignments': assignments,
+        'submitted_ids': submitted_ids
+    })
+    
 ## List of all the assignments uploaded by the teacher himself.
 @login_required
 def assignment_list(request):
-    teacher = request.user.Teacher
-    return render(request,'classroom/assignment_list.html',{'teacher':teacher})
+    student = request.user.Student  # IMPORTANT FIX
 
+    assignments = student.student_assignment.all()
+
+    submitted_ids = SubmitAssignment.objects.filter(
+        student=student
+    ).values_list('submitted_assignment_id', flat=True)
+
+    return render(request, 'classroom/assignment_list.html', {
+        'student': student,
+        'assignments': assignments,
+        'submitted_ids': submitted_ids
+    })
+    
 ## For updating the assignments later.
 @login_required
 def update_assignment(request,id=None):
