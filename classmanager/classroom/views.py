@@ -348,19 +348,32 @@ def teachers_list(request):
 def upload_assignment(request):
     assignment_uploaded = False
     teacher = request.user.Teacher
-    students = Student.objects.filter(user_student_name__teacher=request.user.Teacher)
+
     if request.method == 'POST':
         form = AssignmentForm(request.POST, request.FILES)
+
         if form.is_valid():
             upload = form.save(commit=False)
             upload.teacher = teacher
-            students = Student.objects.filter(user_student_name__teacher=request.user.Teacher)
             upload.save()
+
+            # IMPORTANT FIX: attach ALL students
+            students = Student.objects.all()
             upload.student.add(*students)
+
             assignment_uploaded = True
+
     else:
         form = AssignmentForm()
-    return render(request,'classroom/upload_assignment.html',{'form':form,'assignment_uploaded':assignment_uploaded})
+
+    return render(
+        request,
+        'classroom/upload_assignment.html',
+        {
+            'form': form,
+            'assignment_uploaded': assignment_uploaded
+        }
+    )
 
 ## Students getting the list of all the assignments uploaded by their teacher.
 @login_required
@@ -369,32 +382,31 @@ def class_assignment(request):
 
     assignments = ClassAssignment.objects.filter(student=student)
 
-    submitted_ids = SubmitAssignment.objects.filter(
-        student=student
-    ).values_list('submitted_assignment_id', flat=True)
+    submitted = SubmitAssignment.objects.filter(student=student)
 
-    return render(request, 'classroom/class_assignment.html', {
-        'student': student,
-        'assignments': assignments,
-        'submitted_ids': submitted_ids
-    })
+    submitted_ids = [
+        x.submitted_assignment.id
+        for x in submitted
+    ]
+
+    return render(
+        request,
+        'classroom/class_assignment.html',
+        {
+            'assignments': assignments,
+            'submitted_ids': submitted_ids
+        }
+    )
     
 ## List of all the assignments uploaded by the teacher himself.
 @login_required
 def assignment_list(request):
-    student = request.user.Student  # IMPORTANT FIX
-
-    assignments = student.student_assignment.all()
-
-    submitted_ids = SubmitAssignment.objects.filter(
-        student=student
-    ).values_list('submitted_assignment_id', flat=True)
-
-    return render(request, 'classroom/assignment_list.html', {
-        'student': student,
-        'assignments': assignments,
-        'submitted_ids': submitted_ids
-    })
+    teacher = request.user.Teacher
+    return render(
+        request,
+        'classroom/assignment_list.html',
+        {'teacher': teacher}
+    )
     
 ## For updating the assignments later.
 @login_required
