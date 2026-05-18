@@ -1,1 +1,10 @@
-cffi==1.16.0
+beautifulsoup4==4.9.1
+Django==2.2.12
+django-bootstrap4==1.1.1
+packaging==26.2
+pillow==12.2.0
+pycparser==2.20
+Pygments==2.6.1
+pytz==2020.1
+soupsieve==2.0.1
+sqlparse==0.3.1
