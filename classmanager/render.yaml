@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: classmanager
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn classmanager.wsgi:application
+    runtime: python-3.11.9
