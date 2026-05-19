@@ -380,7 +380,7 @@ def upload_assignment(request):
 def class_assignment(request):
     student = request.user.Student
 
-    assignments = ClassAssignment.objects.filter(student=student)
+    assignments = ClassAssignment.objects.all()
 
     submitted = SubmitAssignment.objects.filter(student=student)
 
