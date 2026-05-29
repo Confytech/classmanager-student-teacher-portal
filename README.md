@@ -1,7 +1,7 @@
-# classmanager
-# Class Manager Student Teacher Portal
+# classmanager 
+# Class Manager Student Teacher Portal App Done by Confy mard
 
-## Live Demo
+## Live Demo Link
 👉 https://classmanager-student-teacher-portal-ug8f.onrender.com/
 A Student-Teacher Portal built using HTML, CSS, Python and Django
 
