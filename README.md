@@ -1,11 +1,11 @@
 # classmanager 
 # Class Manager Student Teacher Portal App Done by Confy mard
 
-## Live Demo Link
+## Live Demo Link 
 👉 https://classmanager-student-teacher-portal-ug8f.onrender.com/
 A Student-Teacher Portal built using HTML, CSS, Python and Django
 
-Class Manager is a Student-Teacher Portal where techers and student can sign up and teachers can add students to their class.
+Class Manager is a Student-Teacher Portal where techers and student can sign up and teachers can add students and upload tasks to their class.
 
 Class Manager contains more features like:
 1. Teachers can add or edit their student's marks after adding them in the class.
