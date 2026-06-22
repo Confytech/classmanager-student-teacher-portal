@@ -1,5 +1,5 @@
 # classmanager 
-# Class Manager Student Teacher Portal App _ by Confidence Ehiemere
+# Class Manager Student Teacher Portal App _ by Confidence Chinaza Ehiemere
 
 ## Live Demo Link 
 👉 https://classmanager-student-teacher-portal-ug8f.onrender.com/
